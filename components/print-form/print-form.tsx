@@ -18,7 +18,6 @@ export const PrintForm = ({ id }: Props) => {
       id: number,
       raffleNo: number,
       issuedAt,
-      shopName: "BIXOLON 강남점",
     });
 
     try {

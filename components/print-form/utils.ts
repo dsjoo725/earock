@@ -1,9 +1,4 @@
-export function receiptTemplate(params: {
-  id: number;
-  raffleNo: number;
-  issuedAt: string;
-  shopName: string;
-}) {
+export function receiptTemplate(params: { id: number; raffleNo: number; issuedAt: string }) {
   const raffleNoStr = String(params.raffleNo).padStart(6, "0");
 
   return {
