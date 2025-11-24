@@ -11,7 +11,7 @@ import {
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex justify-center items-center">
+    <main className="min-h-screen p-4 flex justify-center items-center">
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle>EAROCK</CardTitle>

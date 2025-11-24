@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { printAt, receiptTemplate } from "./utils";
+import { usePrintNumber } from "./use-print-number";
 
 interface Props {
   id?: string;
 }
 export const PrintForm = ({ id }: Props) => {
-  const [number, setNumber] = useState(1);
+  const { number, setNumber } = usePrintNumber();
 
   const handlePrint = async () => {
     const issuedAt = printAt();
@@ -26,6 +26,7 @@ export const PrintForm = ({ id }: Props) => {
         body: JSON.stringify(payload),
       });
 
+      setNumber((prev) => prev + 1);
       console.log(response);
     } catch (error) {
       console.error(error);
@@ -49,9 +50,9 @@ export const PrintForm = ({ id }: Props) => {
           required
           value={number}
           onChange={(e) => {
-            const value = Number(e.target.value);
-            if (isNaN(value)) return;
-            setNumber(value);
+            const parsed = Number(e.target.value);
+            if (isNaN(parsed)) return;
+            setNumber(parsed);
           }}
         />
       </div>
