@@ -2,7 +2,7 @@
 
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { printAt, receiptTemplate } from "./utils";
+import { receiptTemplate } from "./utils";
 import { usePrintNumber } from "./use-print-number";
 
 interface Props {
@@ -12,12 +12,10 @@ export const PrintForm = ({ id }: Props) => {
   const { number, setNumber } = usePrintNumber();
 
   const handlePrint = async () => {
-    const issuedAt = printAt();
-
     const payload = receiptTemplate({
       id: number,
       raffleNo: number,
-      issuedAt,
+      paperInch: 3,
     });
 
     try {
@@ -42,7 +40,7 @@ export const PrintForm = ({ id }: Props) => {
       }}
     >
       <div className="grid gap-2">
-        <Label htmlFor="print-number">번호</Label>
+        <Label htmlFor="print-number">추첨 번호</Label>
         <Input
           id="print-number"
           name="printNumber"
