@@ -15,7 +15,7 @@ export const PrintForm = ({ id }: Props) => {
     const payload = receiptTemplate({
       id: number,
       raffleNo: number,
-      paperInch: 3,
+      paperInch: 2,
     });
 
     try {
