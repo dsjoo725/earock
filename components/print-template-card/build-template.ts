@@ -29,7 +29,7 @@ export function buildTicketTemplate(params: {
       moduleSize: 4,
     })
     .line()
-    .text({ text: "EAROCK :)\n" })
+    .text({ text: "EAROCK :)\n\n" })
     .cut({ type: "feed" });
 
   return builder.build();
@@ -47,7 +47,7 @@ export function buildStubTemplate(params: { id: number; raffleNo: number; paperI
     .text({ text: raffleNoStr + "\n", horizontal: 2, vertical: 2, bold: true, align: "center" })
     .text({ text: "\n" })
     .line()
-    .text({ text: "EAROCK :)\n" })
+    .text({ text: "EAROCK :)\n\n" })
     .cut({ type: "feed" });
 
   return builder.build();
