@@ -26,7 +26,7 @@ export function buildTicketTemplate(params: {
       model: "model2",
       align: "center",
       eccLevel: "Q",
-      moduleSize: 3,
+      moduleSize: 4,
     })
     .line()
     .text({ text: "EAROCK :)\n" })
