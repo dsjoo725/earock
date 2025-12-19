@@ -9,7 +9,7 @@ import {
 import { MAX_COLS_BY_INCH } from "./config";
 import { PaperInch, WebPrintSDKCommand, WebPrintSDKFunc } from "./types";
 
-type WebPrintSDKPayload = {
+export type WebPrintSDKPayload = {
   id: number;
   functions: Record<string, WebPrintSDKFunc>;
 };

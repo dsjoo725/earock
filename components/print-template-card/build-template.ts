@@ -30,15 +30,6 @@ export function buildTicketTemplate(params: {
     })
     .line()
     .text({ text: "EAROCK :)\n" })
-    .cut({ type: "feed" })
-    .text({ text: "[추첨권]\n" })
-    .line()
-    .text({ text: "\n" })
-    .text({ text: "추 첨 번 호\n", bold: true, align: "center" })
-    .text({ text: raffleNoStr + "\n", horizontal: 2, vertical: 2, bold: true, align: "center" })
-    .text({ text: "\n" })
-    .line()
-    .text({ text: "EAROCK :)\n" })
     .cut({ type: "feed" });
 
   return builder.build();

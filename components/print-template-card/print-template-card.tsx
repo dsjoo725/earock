@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
+
+import type { PaperInch } from "@/lib/web-print-sdk";
 
 import { Button } from "../ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
@@ -9,7 +12,7 @@ import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
 import { buildStubTemplate, buildTicketTemplate } from "./build-template";
-import type { PaperInch } from "@/lib/web-print-sdk";
+import { requestPrint } from "./request-print";
 
 export const PrintTemplateCard = () => {
   const [paperInch, setPaperInch] = useState<PaperInch>(2);
@@ -22,14 +25,11 @@ export const PrintTemplateCard = () => {
       paperInch,
     });
 
-    try {
-      await fetch("http://127.0.0.1:18080/WebPrintSDK/Printer1", {
-        method: "POST",
-        body: JSON.stringify(payload),
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    toast.promise(requestPrint(payload), {
+      loading: "티켓 출력 중입니다...",
+      success: "출력이 완료되었습니다",
+      error: "출력 중 오류가 발생했습니다",
+    });
   };
 
   const handlePrintStub = async () => {
@@ -39,14 +39,11 @@ export const PrintTemplateCard = () => {
       paperInch,
     });
 
-    try {
-      await fetch("http://127.0.0.1:18080/WebPrintSDK/Printer1", {
-        method: "POST",
-        body: JSON.stringify(payload),
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    toast.promise(requestPrint(payload), {
+      loading: "추첨권 출력 중입니다...",
+      success: "출력이 완료되었습니다",
+      error: "출력 중 오류가 발생했습니다",
+    });
   };
 
   return (
