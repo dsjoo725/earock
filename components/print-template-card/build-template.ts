@@ -43,3 +43,21 @@ export function buildTicketTemplate(params: {
 
   return builder.build();
 }
+
+export function buildStubTemplate(params: { id: number; raffleNo: number; paperInch: PaperInch }) {
+  const { id, paperInch, raffleNo } = params;
+  const raffleNoStr = String(raffleNo).padStart(4, "0");
+
+  const builder = new PosTemplateBuilder({ id, paperInch })
+    .text({ text: "[추첨권]\n" })
+    .line()
+    .text({ text: "\n" })
+    .text({ text: "추 첨 번 호\n", bold: true, align: "center" })
+    .text({ text: raffleNoStr + "\n", horizontal: 2, vertical: 2, bold: true, align: "center" })
+    .text({ text: "\n" })
+    .line()
+    .text({ text: "EAROCK :)\n" })
+    .cut({ type: "feed" });
+
+  return builder.build();
+}

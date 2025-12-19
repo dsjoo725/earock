@@ -8,7 +8,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
-import { buildTicketTemplate } from "./build-template";
+import { buildStubTemplate, buildTicketTemplate } from "./build-template";
 import type { PaperInch } from "@/lib/web-print-sdk";
 
 export const PrintTemplateCard = () => {
@@ -17,6 +17,23 @@ export const PrintTemplateCard = () => {
 
   const handlePrintTicket = async () => {
     const payload = buildTicketTemplate({
+      id: Date.now(),
+      raffleNo,
+      paperInch,
+    });
+
+    try {
+      await fetch("http://127.0.0.1:18080/WebPrintSDK/Printer1", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handlePrintStub = async () => {
+    const payload = buildStubTemplate({
       id: Date.now(),
       raffleNo,
       paperInch,
@@ -73,6 +90,9 @@ export const PrintTemplateCard = () => {
       <CardFooter>
         <Button className="w-full" onClick={handlePrintTicket}>
           티켓 인쇄
+        </Button>
+        <Button className="w-full" onClick={handlePrintStub}>
+          추첨권 인쇄
         </Button>
       </CardFooter>
     </Card>
