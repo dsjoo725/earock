@@ -87,7 +87,7 @@ export const PrintTemplateCard = () => {
         </div>
       </CardContent>
 
-      <CardFooter>
+      <CardFooter className="flex flex-col gap-1">
         <Button className="w-full" onClick={handlePrintTicket}>
           티켓 인쇄
         </Button>
