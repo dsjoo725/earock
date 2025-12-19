@@ -1,56 +1,32 @@
 "use client";
 
 import { useState } from "react";
+
 import { Button } from "../ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { buildStubTemplate, buildTicketTemplate } from "./build-template";
-import { PaperInch } from "@/lib/web-print-sdk";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+
+import { buildTicketTemplate } from "./build-template";
+import type { PaperInch } from "@/lib/web-print-sdk";
 
 export const PrintTemplateCard = () => {
-  const [copies, setCopies] = useState<number>(1);
   const [paperInch, setPaperInch] = useState<PaperInch>(2);
-
-  const handleCopiesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const next = Number(e.target.value);
-    if (!Number.isFinite(next)) return;
-    setCopies(next);
-  };
+  const [raffleNo, setRaffleNo] = useState<number>(1);
 
   const handlePrintTicket = async () => {
     const payload = buildTicketTemplate({
-      id: 1,
-      raffleNo: 1,
+      id: Date.now(),
+      raffleNo,
       paperInch,
     });
 
     try {
-      const response = await fetch("http://127.0.0.1:18080/WebPrintSDK/Printer1", {
+      await fetch("http://127.0.0.1:18080/WebPrintSDK/Printer1", {
         method: "POST",
         body: JSON.stringify(payload),
       });
-
-      console.log(response);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handlePrintStub = async () => {
-    const payload = buildStubTemplate({
-      id: 1,
-      raffleNo: 1,
-      paperInch,
-    });
-
-    try {
-      const response = await fetch("http://127.0.0.1:18080/WebPrintSDK/Printer1", {
-        method: "POST",
-        body: JSON.stringify(payload),
-      });
-
-      console.log(response);
     } catch (error) {
       console.error(error);
     }
@@ -60,47 +36,43 @@ export const PrintTemplateCard = () => {
     <Card className="w-full max-w-sm">
       <CardHeader>
         <CardTitle>EAROCK</CardTitle>
-        <CardDescription>이어락 연말 공연 티켓 생성기</CardDescription>
+        <CardDescription>이어락 연말 공연 티켓 발행기</CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col gap-3">
+
+      <CardContent className="flex flex-col gap-4">
         <div className="grid gap-2">
-          <Label htmlFor="copies-input">출력 매수</Label>
+          <Label>용지 크기</Label>
+          <RadioGroup
+            value={String(paperInch)}
+            onValueChange={(v) => setPaperInch(Number(v) as PaperInch)}
+            className="flex gap-4"
+          >
+            <div className="flex items-center gap-2">
+              <RadioGroupItem value="2" id="inch-2" />
+              <Label htmlFor="inch-2">2인치</Label>
+            </div>
+            <div className="flex items-center gap-2">
+              <RadioGroupItem value="3" id="inch-3" />
+              <Label htmlFor="inch-3">3인치</Label>
+            </div>
+          </RadioGroup>
+        </div>
+
+        <div className="grid gap-2">
+          <Label htmlFor="raffleNo">응모 번호</Label>
           <Input
-            id="copies-input"
+            id="raffleNo"
             type="number"
-            inputMode="numeric"
             min={1}
-            required
-            value={copies}
-            onChange={handleCopiesChange}
+            value={raffleNo}
+            onChange={(e) => setRaffleNo(Number(e.target.value))}
           />
         </div>
-        <Label>용지 폭</Label>
-        <div className="flex gap-2">
-          <Button
-            type="button"
-            className="border"
-            variant={paperInch === 2 ? "secondary" : "outline"}
-            onClick={() => setPaperInch(2)}
-          >
-            58mm
-          </Button>
-          <Button
-            type="button"
-            className="border"
-            variant={paperInch === 3 ? "secondary" : "outline"}
-            onClick={() => setPaperInch(3)}
-          >
-            80mm
-          </Button>
-        </div>
       </CardContent>
-      <CardFooter className="flex-col gap-2">
-        <Button className="w-full" onClick={() => handlePrintTicket()}>
+
+      <CardFooter>
+        <Button className="w-full" onClick={handlePrintTicket}>
           티켓 인쇄
-        </Button>
-        <Button className="w-full" onClick={() => handlePrintStub()}>
-          추첨권 인쇄
         </Button>
       </CardFooter>
     </Card>
